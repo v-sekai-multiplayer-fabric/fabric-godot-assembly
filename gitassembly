@@ -1,4 +1,16 @@
-stage multiplayer-fabric-base remotes/v-sekai-fire/feat/engine-patches
+stage multiplayer-fabric-base remotes/v-sekai-fire/master
+
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/fork-scaffolding
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/engine-misc
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/tapered-capsule-shape
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/crypto-extensions
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/predictive-bvh
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/uds-test-stability
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/misc-cleanup
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/lint-cleanup
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/ci-fixes
+merge multiplayer-fabric-base remotes/v-sekai-fire/feat/agents-docs
+
 merge multiplayer-fabric-base remotes/v-sekai-fire/feat/fix-picosocks-cmsghdr-mingw
 merge multiplayer-fabric-base remotes/v-sekai-fire/feat/godot-cpp-build
 merge multiplayer-fabric-base remotes/v-sekai-fire/feat/godot-cpp-master
