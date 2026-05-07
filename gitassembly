@@ -8,6 +8,6 @@ merge multiplayer-fabric-base remotes/v-sekai-fire/feat/module-keychain
 merge multiplayer-fabric-base remotes/v-sekai-fire/feat/module-lasso
 merge multiplayer-fabric-base remotes/v-sekai-fire/feat/module-openvr
 merge multiplayer-fabric-base remotes/v-sekai-fire/feat/module-speech
-merge multiplayer-fabric-base remotes/opentelemetry-godot/feat/open-telemetry
+merge multiplayer-fabric-base remotes/opentelemetry-godot/feat/open-telemetry-base
 
 stage multiplayer-fabric remotes/v-sekai-fire/multiplayer-fabric
