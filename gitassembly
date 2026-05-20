@@ -1,21 +1,11 @@
-stage multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/master
-
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/engine-misc
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/tapered-capsule-shape
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/crypto-extensions
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/predictive-bvh
+stage multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/engine-misc
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/uds-test-stability
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/misc-cleanup
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/lint-cleanup
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/ci-fixes
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/agents-docs
+merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/crypto-extensions
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/fix-picosocks-cmsghdr-mingw
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/godot-cpp-build
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/godot-cpp-master
+merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/predictive-bvh
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-http3
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-sandbox
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-keychain
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-lasso
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-openvr
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-speech
 merge multiplayer-fabric-base remotes/opentelemetry-godot/feat/open-telemetry-base
