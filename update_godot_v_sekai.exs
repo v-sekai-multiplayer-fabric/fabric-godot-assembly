@@ -1,10 +1,5 @@
 #!/usr/bin/env elixir
 
-original_branch = "main"
-merge_remote = "v-sekai-fire"
-merge_branch_base = "multiplayer-fabric-base"
-merge_branch = "multiplayer-fabric"
-
 argv = System.argv()
 
 if Enum.any?(argv, &(&1 in ["-h", "--help"])) do
@@ -39,8 +34,13 @@ add_remote = fn name, url ->
 end
 
 IO.puts("Checkout remotes")
-add_remote.("v-sekai-fire", "https://github.com/v-sekai-multiplayer-fabric/multiplayer-fabric-godot.git")
+
+merge_remote = "v-sekai-multiplayer-fabric"
+
+add_remote.(merge_remote, "https://github.com/v-sekai-multiplayer-fabric/godot.git")
 add_remote.("opentelemetry-godot", "https://github.com/V-Sekai-fire/opentelemetry-godot.git")
+
+original_branch = "main"
 
 current_branch = String.trim(run!.("git", ["rev-parse", "--abbrev-ref", "HEAD"]))
 if current_branch != original_branch do
@@ -57,6 +57,9 @@ has_changes =
   end
 
 run!.("git", ["stash"])
+
+merge_branch_base = "multiplayer-fabric-base"
+merge_branch = "multiplayer-fabric"
 
 run!.("git", ["checkout", original_branch, "--force"])
 System.cmd("git", ["branch", "-D", merge_branch_base], stderr_to_stdout: true)
