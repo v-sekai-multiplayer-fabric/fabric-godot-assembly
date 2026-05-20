@@ -3,6 +3,7 @@ merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/uds-test-s
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/misc-cleanup
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/lint-cleanup
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/ci-fixes
+merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/d3d12-download-retry
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/crypto-extensions
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-http3
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/module-keychain
