@@ -1,66 +1,89 @@
 # Contributing
 
-Tooling for assembling the multiplayer-fabric Godot fork from upstream
-and custom patch sets.  The Elixir script `update_godot_v_sekai.exs`
-drives version bumps; `thirdparty/git-assembler` is a Python 3 script
-that performs the actual branch merging, cherry-picking, and conflict
-resolution strategy; `gitassembly` is the configuration file that
-describes what to merge.  The result feeds into the
-`multiplayer-fabric-godot` fork.
+This repo assembles the multiplayer-fabric Godot fork from upstream
+feature branches and pushes the result back to
+`v-sekai-multiplayer-fabric/godot`.  Three files do the work:
 
-## Guiding principles
-
-- **Reproducible assemblies.** Running the assembly script twice
-  against the same inputs must produce the same output commit (modulo
-  timestamp).  If a step is non-deterministic, fix it before merging.
-- **Explicit conflict strategy.** Every merge conflict must be resolved
-  by a documented rule (`ours`, `theirs`, custom driver), not by hand.
-  Hand-resolved conflicts become invisible to future rebases.
-- **Dry-run by default.** All destructive Git operations (force-push,
-  branch reset, tag creation) must be gated behind a `--dry-run` flag
-  that prints the commands without executing them.
-- **Log every decision.** The assembly script emits structured log
-  lines for each merge, cherry-pick, and conflict resolution so the
-  run is auditable.
-- **Error tuples in Elixir, exit codes in Python.** Neither the Elixir
-  script nor the Python assembler should exit non-zero without printing
-  a human-readable error message.
+- `update_godot_v_sekai.exs` is the Elixir driver.  It must be run
+  from `main`, sets up the `v-sekai-multiplayer-fabric` and
+  `opentelemetry-godot` remotes, invokes the assembler, and (unless
+  `--dry-run` is passed) force-pushes the assembled
+  `multiplayer-fabric-base` and `multiplayer-fabric` branches plus a
+  CalVer tag.
+- `thirdparty/git-assembler` is a vendored copy of git-assembler 1.5,
+  a single Python 3 file (GPLv3).  It reads `gitassembly` and performs
+  the actual branch stage/merge operations.
+- `gitassembly` is the configuration.  It lists upstream refs to
+  assemble, one operation per line.
 
 ## Workflow
 
-```
-# Update Godot version (dry run)
-elixir update_godot_v_sekai.exs --dry-run
+Iterate with `--dry-run` so the script doesn't push:
 
-# Run assembly directly
+```
+elixir update_godot_v_sekai.exs --dry-run
+```
+
+Publish a release (force-push plus tag) by dropping the flag:
+
+```
+elixir update_godot_v_sekai.exs
+```
+
+You can also invoke the assembler directly.  This skips the Elixir
+wrapper's remote setup, stash, and push, so both remotes must already
+be fetched:
+
+```
 python3 ./thirdparty/git-assembler -av --recreate --config gitassembly
 ```
 
-## Design notes
+Uncommitted changes are stashed at the start of the run and reported
+at the end.
 
-### Assembly configuration
+## How the assembler behaves
 
-`gitassembly` describes the ordered list of upstream refs, custom patch
-branches, and merge strategies in a simple line-oriented format:
+Running the assembler twice with the same inputs produces the same
+tree; the only thing that changes between runs is the timestamped tag.
+If a step turns out to be non-deterministic, fix it before merging
+rather than working around it.
+
+Branch lists belong in `gitassembly`, not in the Elixir or Python
+source.  Adding a new upstream means adding a `merge` line, not
+editing the wrapper.
+
+`--dry-run` only suppresses the push and tag steps.  The wrapper still
+stashes, force-checks out `main`, deletes the local
+`multiplayer-fabric-base` and `multiplayer-fabric` branches, and
+recreates them via `--recreate`.  Do not pass `--dry-run` expecting
+nothing to happen locally.
+
+Conflict resolution is plain `git merge`.  `gitassembly` declares no
+`ours`/`theirs`/custom merge drivers, and `git-assembler` does not
+support cherry-picking, so a conflict fails the run and the fix
+belongs on the source branch.
+
+Neither script should exit non-zero silently.  In the Elixir wrapper
+the `run!` helper raises with the failing command and exit code; in
+the assembler, errors go through `logging.error`.
+
+## Updating the vendored assembler
+
+`thirdparty/git-assembler` is a single file, not a submodule and not
+a directory.  Its version lives in `APP_VER` inside the script
+(currently `1.5`).  To update: replace the file with a newer upstream
+copy, adjust `APP_VER` to match, and verify the CLI flags the Elixir
+wrapper depends on (`-av`, `--recreate`, `--config`) still exist.
+
+## Tag format
+
+The release tag is built from the current UTC time:
 
 ```
-stage <target-branch> <base-ref>   # reset target to base
-merge <target-branch> <source-ref> # merge source into target
+v<YYYY.MM.DD.HHMM>-multiplayer-fabric
 ```
 
-No logic is hardcoded in the assembler.  Changes to merge strategy
-require a config change, not a code change.
-
-### Thirdparty snapshots
-
-`thirdparty/` contains pinned snapshots of upstream tooling used by the
-assembly process.  These are not submodules — they are vendored copies
-so the tool works offline.  Update a snapshot by replacing the
-directory and updating the version comment at the top of the relevant
-config file.
-
-### Version derivation
-
-The Elixir script reads the target Godot version from `.env` (`VERSION`)
-and the command line, not from a hardcoded constant.  Never hardcode
-version strings in source files.
+There is no Godot version string read from `.env` or the command
+line.  The assembled tree's Godot version is whatever the first
+`stage` line in `gitassembly` points at (currently `feat/engine-misc`).
+To pin a different upstream version, change that ref.
