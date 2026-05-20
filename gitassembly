@@ -1,5 +1,4 @@
 stage multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/engine-misc
-merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/uds-test-stability
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/misc-cleanup
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/lint-cleanup
 merge multiplayer-fabric-base remotes/v-sekai-multiplayer-fabric/feat/ci-fixes
