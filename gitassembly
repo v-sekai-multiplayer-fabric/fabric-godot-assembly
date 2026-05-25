@@ -1,2 +1,3 @@
 stage multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/d3d12-download-retry
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/assets
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lasso
