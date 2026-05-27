@@ -1,3 +1,24 @@
+# Independent branches (each standalone on master)
 stage multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/d3d12-download-retry
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/assets
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lint-cleanup
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/ci-fixes
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/crypto-extensions
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/tapered-capsule-shape
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lasso
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-http3
+
+# Engine core patches
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/engine-patches
+
+# Assets: predictive BVH + Lean proofs
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/assets
+
+# Modules (each standalone on master)
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-sqlite
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-multiplayer-fabric
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-multiplayer-fabric-asset
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-open-telemetry
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-keychain
+
+# Audio
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/spatial-audio
