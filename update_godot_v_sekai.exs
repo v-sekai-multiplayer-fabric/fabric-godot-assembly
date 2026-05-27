@@ -14,6 +14,15 @@ end
 
 dry_run = Enum.any?(argv, &(&1 in ["-n", "--no-push", "--dry-run"]))
 
+merge_remote = "v-sekai-multiplayer-fabric"
+merge_remote_url = "https://github.com/v-sekai-multiplayer-fabric/godot.git"
+opentelemetry_remote = "opentelemetry-godot"
+opentelemetry_remote_url = "https://github.com/V-Sekai-fire/opentelemetry-godot.git"
+original_branch = "main"
+merge_branch = "multiplayer-fabric"
+assembler_path = "./thirdparty/git-assembler"
+assembler_config = "gitassembly"
+
 run! = fn cmd, args ->
   case System.cmd(cmd, args, stderr_to_stdout: true) do
     {output, 0} ->
@@ -33,12 +42,8 @@ end
 
 IO.puts("Checkout remotes")
 
-merge_remote = "v-sekai-multiplayer-fabric"
-
-add_remote.(merge_remote, "https://github.com/v-sekai-multiplayer-fabric/godot.git")
-add_remote.("opentelemetry-godot", "https://github.com/V-Sekai-fire/opentelemetry-godot.git")
-
-original_branch = "main"
+add_remote.(merge_remote, merge_remote_url)
+add_remote.(opentelemetry_remote, opentelemetry_remote_url)
 
 current_branch = String.trim(run!.("git", ["rev-parse", "--abbrev-ref", "HEAD"]))
 if current_branch != original_branch do
@@ -46,7 +51,7 @@ if current_branch != original_branch do
   System.halt(1)
 end
 
-IO.puts("*** Working on assembling gitassembly")
+IO.puts("*** Working on assembling #{assembler_config}")
 
 has_changes =
   case System.cmd("git", ["diff", "--quiet", "HEAD"], stderr_to_stdout: true) do
@@ -56,13 +61,9 @@ has_changes =
 
 run!.("git", ["stash"])
 
-merge_branch_base = "multiplayer-fabric-base"
-merge_branch = "multiplayer-fabric"
-
 run!.("git", ["checkout", original_branch, "--force"])
-System.cmd("git", ["branch", "-D", merge_branch_base], stderr_to_stdout: true)
 System.cmd("git", ["branch", "-D", merge_branch], stderr_to_stdout: true)
-run!.("python3", ["./thirdparty/git-assembler", "-av", "--recreate", "--config", "gitassembly"])
+run!.("python3", [assembler_path, "-av", "--recreate", "--config", assembler_config])
 
 tag_name =
   "v" <>
@@ -71,9 +72,6 @@ tag_name =
     "-#{merge_branch}"
 
 if not dry_run do
-  run!.("git", ["checkout", merge_branch_base, "-f"])
-  run!.("git", ["push", merge_remote, merge_branch_base, "-f"])
-
   run!.("git", ["checkout", merge_branch, "-f"])
   run!.("git", ["commit", "--allow-empty", "-m", "Merge branch '#{merge_branch}'"])
   run!.("git", ["push", merge_remote, merge_branch, "-f"])
@@ -82,11 +80,10 @@ if not dry_run do
   run!.("git", ["push", merge_remote, tag_name])
 
   run!.("git", ["checkout", original_branch, "--force"])
-  System.cmd("git", ["branch", "-D", merge_branch_base], stderr_to_stdout: true)
   System.cmd("git", ["branch", "-D", merge_branch], stderr_to_stdout: true)
 else
   run!.("git", ["checkout", original_branch, "--force"])
-  IO.puts("#{merge_branch_base} and #{merge_branch} were created and are ready to push.")
+  IO.puts("#{merge_branch} was created and is ready to push.")
   IO.puts("Would tag as #{tag_name}.")
 end
 
