@@ -26,7 +26,8 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-cassie
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-xr-grid
 
 # Audio
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/spatial-audio-server
+# feat/spatial-audio-server does not exist on the godot fork; spatial audio ships
+# through feat/module-resonance-audio below. Dropped so the assembly runs.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-speech
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-resonance-audio
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/sandbox
