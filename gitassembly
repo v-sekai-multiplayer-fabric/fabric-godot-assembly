@@ -2,7 +2,8 @@
 stage multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/d3d12-download-retry
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lint-cleanup
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/ci-fixes
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/crypto-extensions
+# feat/crypto-extensions archived to godot-archived (branch crypto-extensions); the
+# ECDSA + SAN self-signed cert work it carried lives in feat/module-http3. Dropped from the assembly.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/tapered-capsule-shape
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/joint-limitation
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lasso
