@@ -13,7 +13,8 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-http3
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/lint-config
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/engine-fabric-core
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/double-precision-mobile
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/horizonos-immersive
+# feat/horizonos-immersive no longer exists on the godot fork; dropped so the
+# assembly runs (its HorizonOS immersive work folded into feat/double-precision-mobile).
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/call-gui-input
 
 # Assets: predictive BVH + Lean proofs
