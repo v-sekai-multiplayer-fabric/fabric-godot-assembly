@@ -1,0 +1,41 @@
+# Sample systemd oneshot that builds the multiplayer-fabric assembly via
+# run-assembly.sh. Copy it, replace every <PLACEHOLDER>, then:
+#
+#   sudo install -m644 godot-assembly.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl start --no-block godot-assembly      # DRY_RUN=1 -> branch only
+#   journalctl -u godot-assembly -f
+#
+# Real run (tag + push the tag to the fork): set Environment=DRY_RUN=0, then
+#   sudo systemctl restart godot-assembly               # restart, not start:
+#   RemainAfterExit=yes makes `start` a no-op once the unit is active(exited).
+#
+# Notes:
+#   - ExecStart invokes bash explicitly so the script works even when the repo
+#     lives on a noexec / SELinux-restricted mount (avoids status=203/EXEC).
+#   - Needs elixir + python3 + git + podman? no — just elixir, python3, git on PATH.
+#   - Pushing the tag needs git credentials for the user (e.g. a global
+#     credential.https://github.com.helper = !/usr/bin/gh auth git-credential).
+
+[Unit]
+Description=godot multiplayer-fabric assembly (oneshot)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+TimeoutStartSec=0
+User=<USER>
+Environment=PYTHONUNBUFFERED=1
+# DRY_RUN=1 builds the multiplayer-fabric branch only; DRY_RUN=0 tags it and
+# pushes the tag to v-sekai-multiplayer-fabric/godot.
+Environment=DRY_RUN=1
+# The godot fork checkout to assemble into (run-assembly.sh defaults to
+# ../fabric-godot-core relative to this repo if unset).
+Environment=GODOT_CHECKOUT=<PATH_TO_godot_fork_checkout>
+WorkingDirectory=<PATH_TO_this_repo_checkout>
+ExecStart=/bin/bash <PATH_TO_this_repo_checkout>/run-assembly.sh
+
+[Install]
+WantedBy=multi-user.target

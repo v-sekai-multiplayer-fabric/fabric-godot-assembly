@@ -7,8 +7,16 @@
 #     exclusion-list conflict auto-resolves (keep both sides) without stopping
 #   - runs the elixir driver in DRY-RUN (-n): builds the branch, no tag, no push
 set -euo pipefail
-export PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:/usr/bin:/bin
-export GIT_AUTHOR_NAME="K. S. Ernest (iFire) Lee" GIT_AUTHOR_EMAIL="ernest.lee@chibifire.com"
+# Keep the caller's PATH (systemd starts clean); add common toolchain dirs if present.
+for p in /home/linuxbrew/.linuxbrew/bin /usr/local/bin; do
+  [ -d "$p" ] && case ":${PATH:-}:" in *":$p:"*) ;; *) PATH="$p:${PATH:-/usr/bin:/bin}";; esac
+done
+export PATH
+command -v elixir >/dev/null 2>&1 || { echo "elixir not found on PATH" >&2; exit 1; }
+command -v python3 >/dev/null 2>&1 || { echo "python3 not found on PATH" >&2; exit 1; }
+# Commit identity for the merge commits the assembler makes (override via env/git config).
+export GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-$(git config user.name 2>/dev/null || echo godot-assembly)}"
+export GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-$(git config user.email 2>/dev/null || echo assembly@localhost)}"
 export GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME" GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 
 # This repo (holds the recipe, driver, and assembler).
