@@ -15,9 +15,9 @@ end
 dry_run = Enum.any?(argv, &(&1 in ["-n", "--no-push", "--dry-run"]))
 
 merge_remote = "v-sekai-multiplayer-fabric"
-merge_remote_url = "https://github.com/v-sekai-multiplayer-fabric/godot.git"
+merge_remote_url = "git@github.com:v-sekai-multiplayer-fabric/godot.git"
 opentelemetry_remote = "opentelemetry-godot"
-opentelemetry_remote_url = "https://github.com/V-Sekai-fire/opentelemetry-godot.git"
+opentelemetry_remote_url = "git@github.com:V-Sekai-fire/opentelemetry-godot.git"
 original_branch = "master"
 merge_branch = "multiplayer-fabric"
 
