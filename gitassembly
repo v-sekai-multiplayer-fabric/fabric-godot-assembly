@@ -32,9 +32,12 @@ merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-xr-grid
 # feat/spatial-audio-server does not exist on the godot fork; spatial audio ships
 # through feat/module-resonance-audio below. Dropped so the assembly runs.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-speech
-merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-resonance-audio
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/sandbox
 
 # Media (animation + decoders)
 # feat/lottie archived to archived/lottie (ThorVG 1.0.3 loader fix landed there); dropped from the assembly.
 merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/native-media
+
+# Audio: resonance-audio last — its CODEOWNERS and changed_files.yml additions
+# conflict with earlier module branches when merged sooner.
+merge multiplayer-fabric remotes/v-sekai-multiplayer-fabric/feat/module-resonance-audio
