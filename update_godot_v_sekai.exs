@@ -92,7 +92,7 @@ cleanup = fn ->
   System.cmd("git", ["branch", "-D", merge_branch], stderr_to_stdout: true)
 end
 
-run!.("git", ["stash"])
+run!.("git", ["stash", "--include-untracked"])
 
 try do
   run!.("git", ["checkout", original_branch, "--force"])
