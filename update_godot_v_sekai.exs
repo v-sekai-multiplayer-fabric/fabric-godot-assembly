@@ -18,10 +18,31 @@ merge_remote = "v-sekai-multiplayer-fabric"
 merge_remote_url = "https://github.com/v-sekai-multiplayer-fabric/godot.git"
 opentelemetry_remote = "opentelemetry-godot"
 opentelemetry_remote_url = "https://github.com/V-Sekai-fire/opentelemetry-godot.git"
-original_branch = "main"
+original_branch = "master"
 merge_branch = "multiplayer-fabric"
-assembler_path = "./thirdparty/git-assembler"
-assembler_config = "gitassembly"
+
+# Absolute paths resolved before cd — the assembler and config live in
+# godot-assembly/, but all git work happens in the sibling godot/ repo.
+script_dir = __ENV__.file |> Path.dirname() |> Path.expand()
+godot_path = script_dir |> Path.dirname() |> Path.join("godot") |> Path.expand()
+assembler_path = Path.join(script_dir, "thirdparty/git-assembler")
+assembler_config = Path.join(script_dir, "gitassembly")
+
+unless File.dir?(Path.join(godot_path, ".git")) do
+  IO.puts("Cloning #{merge_remote_url} into #{godot_path}")
+  {output, code} = System.cmd("git", ["clone", merge_remote_url, godot_path], stderr_to_stdout: true)
+  if output != "", do: IO.puts(output)
+  if code != 0, do: raise "git clone failed (exit #{code}): #{output}"
+end
+
+File.cd!(godot_path)
+
+# Safety guard: abort if git thinks we are anywhere other than godot/.
+{toplevel, 0} = System.cmd("git", ["rev-parse", "--show-toplevel"], stderr_to_stdout: true)
+if Path.expand(String.trim(toplevel)) != godot_path do
+  IO.puts("Error: git root is #{String.trim(toplevel)}, expected #{godot_path}. Refusing to assemble outside godot/.")
+  System.halt(1)
+end
 
 run! = fn cmd, args ->
   case System.cmd(cmd, args, stderr_to_stdout: true) do
